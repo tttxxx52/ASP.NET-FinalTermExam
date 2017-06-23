@@ -7,7 +7,7 @@
 
 <h2>InsertPage</h2>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("DoInsert", "Order", FormMethod.Post, new { @id = "insertForm" }))
 {
     @Html.AntiForgeryToken()
     
