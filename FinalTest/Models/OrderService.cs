@@ -156,7 +156,7 @@ namespace FinalTest.Models
                          VALUES
                          (
                             @CustomerID,@CompanyName,@ContactName,@ContactTitle,@CreationDate,@Address,@City,
-                            @Region,@Country,@Phone,@Fax,@CodeValName,@PostalCode
+                            @Region,@Country,@Phone,@Fax,@PostalCode
                          )
                          Select SCOPE_IDENTITY()
                          ";
@@ -177,7 +177,6 @@ namespace FinalTest.Models
                 cmd.Parameters.Add(new SqlParameter("@Country", order.Country ?? string.Empty));
                 cmd.Parameters.Add(new SqlParameter("@Phone", order.Phone) );
                 cmd.Parameters.Add(new SqlParameter("@Fax", order.Fax) );
-                cmd.Parameters.Add(new SqlParameter("@CodeValName", order.CodeValName ?? string.Empty));
                 cmd.Parameters.Add(new SqlParameter("@PostalCode", order.PostalCode ?? string.Empty));
                 OrderID = cmd.ExecuteScalar().ToString();
 
