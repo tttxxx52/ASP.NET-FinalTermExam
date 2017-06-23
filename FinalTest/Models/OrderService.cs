@@ -151,7 +151,7 @@ namespace FinalTest.Models
             string sql = @"Insert INTO [Sales].[Customers]
                          (
                             CustomerID,CompanyName,ContactName,ContactTitle,CreationDate,Address,City,
-                            Region,Country,Phone,Fax,CodeValName,PostalCode
+                            Region,Country,Phone,Fax,PostalCode
                          )
                          VALUES
                          (
