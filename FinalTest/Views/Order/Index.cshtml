@@ -1,0 +1,107 @@
+﻿@model FinalTest.Models.Order
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script type="text/javascript">
+    function Submit() {
+        $.ajax({
+            url: "/Order/GetData",
+            type: "POST",
+            data: $('#orderForm').serialize(),
+            dataType: "JSON",
+            success: function (msg) {
+                $('#resultTable').children().remove();
+                $('#resultTable').append("<tr><td>訂單編號</td><td>名稱</td><td>聯絡人名稱</td><td>聯絡人職稱</td><td></td><td></td></tr>");
+                var date;
+                $.each(msg, function (i, item) {
+                    $('#resultTable').append("<tr><td value=" + item.CustomerID + ">" + item.CustomerID + "</td><td>" + item.CompanyName +
+                                                "</td><td>" + item.ContactName + "</td><td>" + item.CodeValName + "</td><td><input type= button  onclick= location.href='/GetOrder/UpdatePage?OrderID=" + item.CustomerID + "'; value= " + "修改" + "></td><td><input type= button class = deleteData onclick=DoDelete(" + item.CustomerID + ") value= " + "刪除" + "></td></tr>");
+                });
+            },
+            error: function (xhr) {
+                alert(xhr.status);
+            }
+        });
+        document.getElementById("resultDiv").style.display = "";
+    }
+
+    function DoDelete(CustomerID) {
+        $.ajax({
+            url: "/Order/DoDelete",
+            type: "Get",
+            data: { CustomerID: CustomerID },
+        });
+
+        $('#resultTable').on('click', '.deleteData', function () {
+            $(this).closest('tr').remove();
+        });
+    }
+
+
+
+</script>
+
+
+
+<div class="showOrder" id="showOrder">
+    <h3>訂單查詢</h3>
+    @using (Html.BeginForm("GetData", "OrderController", FormMethod.Post, new { @id = "orderForm" }))
+    {
+        <table class="table table-bordered">
+            <tr>
+                <td>
+                   客戶編號
+                </td>
+                <td colspan="4">
+                    @Html.TextBoxFor(model => model.CustomerID)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    客戶名稱
+                </td>
+                <td colspan="4">
+                    @Html.TextBoxFor(model => model.CompanyName)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    聯絡人姓名
+                </td>
+                <td colspan="4">
+                    @Html.TextBoxFor(model => model.ContactName)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    聯絡人職稱
+                </td>
+                <td colspan="4">
+                    @Html.DropDownListFor(model => model.CodeId, (List<SelectListItem>)ViewBag.CodeValName, "請選擇")
+                </td>
+            </tr>
+                  
+            <tr>
+                <td></td>
+                <td colspan="4">
+                    <input type="button" value="查詢" onclick="Submit()">
+                    <input type="reset" value="清除" onclick="Back()">
+                    <input type="reset" value="新增" class="k-button" onclick=location.href ='/Order/InsertPage'>
+                </td>
+            </tr>
+        </table>
+    }
+
+    <div id="resultDiv" style="display:none">
+        <form id="detailForm">
+            <table id="resultTable" class="table table-bordered"></table>
+        </form>
+    </div>
+</div>
+
+
+
+
